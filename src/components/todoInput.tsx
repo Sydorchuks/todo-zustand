@@ -7,25 +7,30 @@ const TodoInput = () => {
 
   const handleAdd = () => {
     if (!value.trim()) return
+    const words = value.trim().split(/\s+/)
 
+    if (words.length > 20) {
+      alert("20 word max")
+      setValue("")
+      return
+    }
+  
     addTodo(value)
     setValue("")
   }
 
   return (
-    <div>
+    <div className="input-row">
       <input
         type="text"
-        placeholder="Add todo..."
+        placeholder="Add a new task..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            handleAdd()
-          }
+          if (e.key === "Enter") handleAdd()
         }}
       />
-
+  
       <button onClick={handleAdd}>Add</button>
     </div>
   )

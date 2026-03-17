@@ -7,11 +7,18 @@ export const TodoList = () => {
 
   const activeTodos = todos.filter((todo) => todo.isActive)
 
-    return (
-        <div>
-          {activeTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
-          ))}
+  return (
+    <div className="todo-list">
+      {activeTodos.length === 0 ? (
+        <div className="empty">
+          <div className="empty-icon">✓</div>
+          <p>Nothing here yet — add your first task!</p>
         </div>
-      )
+      ) : (
+        activeTodos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} />
+        ))
+      )}
+    </div>
+  )
 }

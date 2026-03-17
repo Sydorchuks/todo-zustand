@@ -20,30 +20,33 @@ const TodoItem = ({ todo }: Props) => {
     editTodo(todo.id, value)
     setIsEditing(false)
   }
-
+  
   return (
-    <div>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => toggleTodo(todo.id)}
-      />
-
-      {isEditing ? (
-        <>
+    <div className="todo">
+      <div className="todo-left">
+        {isEditing ? (
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button onClick={handleSave}>Save</button>
-        </>
-      ) : (
-        <>
-          <span>{todo.text}</span>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-        </>
-      )}
+        ) : (
+          <span className={`todo-text ${todo.completed ? "completed" : ""}`}>
+            {todo.text}
+          </span>
+        )}
+      </div>
+  
+      <div className="todo-actions">
+        {isEditing ? (
+          <button onClick={handleSave}>✔</button>
+        ) : (
+          <>
+            {todo.completed! ? (<button onClick={() => toggleTodo(todo.id)}>✗</button>) : (<button onClick={() => toggleTodo(todo.id)}>✔</button>)}
+            <button onClick={() => setIsEditing(true)}>✏</button>
+            <button onClick={() => deleteTodo(todo.id)} className="deleteButton">🗑</button>
+          </>
+        )}
+      </div>
     </div>
   )
 }
