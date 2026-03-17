@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useTodoStore } from "../store/todoStore"
 import type { Todo } from "../types/todo"
 
@@ -7,6 +8,17 @@ type Props = {
 
 const TodoItem = ({ todo }: Props) => {
   const toggleTodo = useTodoStore((state) => state.toggleTodo)
+  const editTodo = useTodoStore((state) => state.editTodo)
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [value, setValue] = useState(todo.text)
+
+  const handleSave = () => {
+    if (!value.trim()) return
+
+    editTodo(todo.id, value)
+    setIsEditing(false)
+  }
 
   return (
     <div>
@@ -16,8 +28,20 @@ const TodoItem = ({ todo }: Props) => {
         onChange={() => toggleTodo(todo.id)}
       />
 
-      <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}> {todo.text} </span>
-
+      {isEditing ? (
+        <>
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button onClick={handleSave}>Save</button>
+        </>
+      ) : (
+        <>
+          <span>{todo.text}</span>
+          <button onClick={() => setIsEditing(true)}>Edit</button>
+        </>
+      )}
     </div>
   )
 }
