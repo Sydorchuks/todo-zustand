@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import type { Todo } from "../types/todo"
+import { persist } from "zustand/middleware"
 
 
 type TodoStore = {
@@ -10,68 +11,54 @@ type TodoStore = {
   deleteTodo: (id: string) => void
 }
 
-export const useTodoStore = create<TodoStore>((set) => ({
-  todos: [],
+export const useTodoStore = create<TodoStore>()(
+  persist(
+    (set) => ({
+      todos: [],
 
-  addTodo: (text) => {
-    const now = Date.now()
-  
-    const newTodo = {
-      id: now.toString(),
-      text,
-      completed: false,
-      createdAt: now,
-      isActive: true
+      addTodo: (text) => {
+        set((state) => ({
+          todos: [
+            ...state.todos,
+            {
+              id: Date.now().toString(),
+              text,
+              completed: false,
+              createdAt: Date.now(),
+              isActive: true
+            }
+          ]
+        }))
+      },
+
+      toggleTodo: (id) => {
+        set((state) => ({
+          todos: state.todos.map((todo) =>
+            todo.id === id
+              ? { ...todo, completed: !todo.completed }
+              : todo
+          )
+        }))
+      },
+
+      editTodo: (id, text) => {
+        set((state) => ({
+          todos: state.todos.map((todo) =>
+            todo.id === id ? { ...todo, text } : todo
+          )
+        }))
+      },
+
+      deleteTodo: (id) => {
+        set((state) => ({
+          todos: state.todos.map((todo) =>
+            todo.id === id ? { ...todo, isActive: false } : todo
+          )
+        }))
+      }
+    }),
+    {
+      name: "todo-storage"
     }
-  
-    set((state) => ({
-      todos: [...state.todos, newTodo]
-    }))
-  },
-
-  toggleTodo: (id) => {
-    set((state) => {
-      const updatedTodos = state.todos.map((todo) => {
-        if (todo.id !== id) return todo
-  
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      })
-  
-      return { todos: updatedTodos }
-    })
-  },
-
-  editTodo: (id, text) => {
-    set((state) => {
-      const updatedTodos = state.todos.map((todo) => {
-        if (todo.id !== id) return todo
-  
-        return {
-          ...todo,
-          text
-        }
-      })
-  
-      return { todos: updatedTodos }
-    })
-  },
-
-  deleteTodo: (id) => {
-    set((state) => {
-      const updatedTodos = state.todos.map((todo) => {
-        if (todo.id !== id) return todo
-  
-        return {
-          ...todo,
-          isActive: false
-        }
-      })
-  
-      return { todos: updatedTodos }
-    })
-  }
-  
-}))
+  )
+)
