@@ -5,6 +5,7 @@ import type { Todo } from "../types/todo"
 type TodoStore = {
   todos: Todo[]
   addTodo: (text: string) => void
+  toggleTodo: (id: string) => void
 }
 
 export const useTodoStore = create<TodoStore>((set) => ({
@@ -24,6 +25,21 @@ export const useTodoStore = create<TodoStore>((set) => ({
     set((state) => ({
       todos: [...state.todos, newTodo]
     }))
+  },
+
+  toggleTodo: (id) => {
+    set((state) => {
+      const updatedTodos = state.todos.map((todo) => {
+        if (todo.id !== id) return todo
+  
+        return {
+          ...todo,
+          completed: !todo.completed
+        }
+      })
+  
+      return { todos: updatedTodos }
+    })
   }
   
 }))
