@@ -7,6 +7,7 @@ type TodoStore = {
   addTodo: (text: string) => void
   toggleTodo: (id: string) => void
   editTodo: (id: string, text: string) => void
+  deleteTodo: (id: string) => void
 }
 
 export const useTodoStore = create<TodoStore>((set) => ({
@@ -51,6 +52,21 @@ export const useTodoStore = create<TodoStore>((set) => ({
         return {
           ...todo,
           text
+        }
+      })
+  
+      return { todos: updatedTodos }
+    })
+  },
+
+  deleteTodo: (id) => {
+    set((state) => {
+      const updatedTodos = state.todos.map((todo) => {
+        if (todo.id !== id) return todo
+  
+        return {
+          ...todo,
+          isActive: false
         }
       })
   

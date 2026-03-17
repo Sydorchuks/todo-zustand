@@ -3,11 +3,13 @@ import TodoItem from "./todoItem"
 
 
 export const TodoList = () => {
-    const todos = useTodoStore((state) => state.todos)
+  const todos = useTodoStore((state) => state.todos)
+
+  const activeTodos = todos.filter((todo) => todo.isActive)
 
     return (
         <div>
-          {todos.map((todo) => (
+          {activeTodos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
         </div>

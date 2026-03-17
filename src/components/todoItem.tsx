@@ -9,6 +9,7 @@ type Props = {
 const TodoItem = ({ todo }: Props) => {
   const toggleTodo = useTodoStore((state) => state.toggleTodo)
   const editTodo = useTodoStore((state) => state.editTodo)
+  const deleteTodo = useTodoStore((state) => state.deleteTodo)
 
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(todo.text)
@@ -40,6 +41,7 @@ const TodoItem = ({ todo }: Props) => {
         <>
           <span>{todo.text}</span>
           <button onClick={() => setIsEditing(true)}>Edit</button>
+          <button onClick={() => deleteTodo(todo.id)}>Delete</button>
         </>
       )}
     </div>
