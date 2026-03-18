@@ -1,38 +1,26 @@
 import { useState } from "react"
-import { useTodoStore } from "../store/todoStore"
+import { useAddTodo } from "../hooks/addTodo"
 
 const TodoInput = () => {
   const [value, setValue] = useState("")
-  const addTodo = useTodoStore((state) => state.addTodo)
-
-  const handleAdd = () => {
-    if (!value.trim()) return
-    const words = value.trim().split(/\s+/)
-
-    if (words.length > 20) {
-      alert("20 word max")
-      setValue("")
-      return
-    }
-  
-    addTodo(value)
-    setValue("")
-  }
+  const handleAdd = useAddTodo()
 
   return (
-    <div className="input-row">
+    <form
+      className="input-row"
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleAdd(value, () => setValue(""))
+      }}
+    >
       <input
         type="text"
         placeholder="Add a new task..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleAdd()
-        }}
       />
-  
-      <button onClick={handleAdd}>Add</button>
-    </div>
+      <button type="submit">Add</button>
+    </form>
   )
 }
 

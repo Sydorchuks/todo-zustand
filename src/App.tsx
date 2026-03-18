@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 import TodoInput from "./components/todoInput"
 import { TodoList } from "./components/todoList"
 import { useTodoStore } from "./store/todoStore"
@@ -5,8 +6,16 @@ import { useTodoStore } from "./store/todoStore"
 function App() {
 
   const todos = useTodoStore((state) => state.todos)
-  const tasksCount = todos.filter((t) => t.isActive).length
-  const trashCount = todos.filter((t) => !t.isActive).length
+
+  const tasksCount = useMemo(
+    () => todos.filter((t) => t.isActive).length,
+    [todos]
+  )
+  
+  const trashCount = useMemo(
+    () => todos.filter((t) => !t.isActive).length,
+    [todos]
+  )
 
   return (
     <div className="app">
