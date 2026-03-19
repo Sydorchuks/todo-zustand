@@ -5,20 +5,29 @@ import TodoItem from "./todoItem"
 export const TodoList = () => {
   const todos = useTodoStore((state) => state.todos)
 
-  const activeTodos = todos.filter((todo) => todo.isActive)
+  const activeTab = useTodoStore((s) => s.activeTab)
 
-  return (
-    <div className="todo-list">
-      {activeTodos.length === 0 ? (
-        <div className="empty">
-          <div className="empty-icon">✓</div>
-          <p>Nothing here yet — add your first task!</p>
+  const filteredTodos =
+    activeTab === "tasks"
+      ? todos.filter((t) => t.isActive)
+      : todos.filter((t) => !t.isActive)
+
+      return (
+        <div className="todo-list">
+          {filteredTodos.length === 0 ? (
+            <div className="empty">
+              <div className="empty-icon">✓</div>
+              <p>
+                {activeTab === "tasks"
+                  ? "Nothing here yet — add your first task!"
+                  : "Trash is empty"}
+              </p>
+            </div>
+          ) : (
+            filteredTodos.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} />
+            ))
+          )}
         </div>
-      ) : (
-        activeTodos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
-        ))
-      )}
-    </div>
-  )
+      )
 }

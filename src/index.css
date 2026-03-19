@@ -32,38 +32,33 @@ body {
 .tabs {
   display: flex;
   gap: 12px;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 .tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
   padding: 8px 16px;
   border-radius: 12px;
-  border: 1px solid #ddd;
-
-  background: white;
+  border: none;
+  background: #f3f4f6;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.tab:hover {
-  background: #f2f2f2;
+.tab.active {
+  background: #909cb5;
 }
 
 .badge {
-  background: #eee;
-  border-radius: 999px;
-  padding: 2px 8px;
-  font-size: 12px;
+  margin-left: 6px;
+  background: #e5e7eb;
+  padding: 2px 6px;
+  border-radius: 8px;
 }
 
 .input-row {
   display: flex;
   gap: 12px;
   margin-bottom: 30px;
+  margin-top: 10px;
 }
 
 .input-row input {
@@ -208,4 +203,41 @@ body {
   .todo-actions {
     align-self: flex-end;
   }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modal-actions button {
+  padding: 6px 12px;
+  min-width: 70px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }

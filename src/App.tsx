@@ -17,6 +17,9 @@ function App() {
     [todos]
   )
 
+  const activeTab = useTodoStore((s) => s.activeTab)
+  const setActiveTab = useTodoStore((s) => s.setActiveTab)
+
   return (
     <div className="app">
       <header className="header">
@@ -25,15 +28,19 @@ function App() {
         </h1>
       </header>
   
-      <div className="tabs">
-        <button className="tab">
-          Tasks <span className="badge">{tasksCount}</span>
-        </button>
-  
-        <button className="tab">
-          Trash <span className="badge">{trashCount}</span>
-        </button>
-      </div>
+      <button
+        className={`tab ${activeTab === "tasks" ? "active" : ""}`}
+        onClick={() => setActiveTab("tasks")}
+      >
+        Tasks <span className="badge">{tasksCount}</span>
+      </button>
+
+      <button
+        className={`tab ${activeTab === "trash" ? "active" : ""}`}
+        onClick={() => setActiveTab("trash")}
+      >
+        Trash <span className="badge">{trashCount}</span>
+      </button>
   
       <TodoInput />
   
