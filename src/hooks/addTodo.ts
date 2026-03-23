@@ -10,7 +10,6 @@ export const useAddTodo = () => {
 
     if (words.length > 20) {
       alert("20 word max")
-      clear()
       return
     }
 

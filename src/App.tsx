@@ -1,24 +1,19 @@
-import { useMemo } from "react"
 import TodoInput from "./components/todoInput"
-import { TodoList } from "./components/todoList"
+import TodoList from "./components/todoList"
+
 import { useTodoStore } from "./store/todoStore"
 
 function App() {
 
-  const todos = useTodoStore((state) => state.todos)
+  const todos = useTodoStore((s) => s.todos)
 
-  const tasksCount = useMemo(
-    () => todos.filter((t) => t.isActive).length,
-    [todos]
-  )
-  
-  const trashCount = useMemo(
-    () => todos.filter((t) => !t.isActive).length,
-    [todos]
-  )
+  const activeItems = todos.filter((t) => t.isActive)
+  const trashItems = todos.filter((t) => !t.isActive)
 
   const activeTab = useTodoStore((s) => s.activeTab)
-  const setActiveTab = useTodoStore((s) => s.setActiveTab)
+  const setActiveTab = useTodoStore((s) => s.setActiveTab) 
+
+  const isTasks = activeTab === "tasks"
 
   return (
     <div className="app">
@@ -27,26 +22,32 @@ function App() {
           do<span className="dot">.</span>it
         </h1>
       </header>
-  
-      <button
-        className={`tab ${activeTab === "tasks" ? "active" : ""}`}
-        onClick={() => setActiveTab("tasks")}
-      >
-        Tasks <span className="badge">{tasksCount}</span>
+
+      <button className={`tab ${activeTab === "trash" ? "tasks" : ""}`}
+        onClick={() => setActiveTab("tasks")}>
+        Tasks <span className="badge">{activeItems.length}</span>
       </button>
 
-      <button
-        className={`tab ${activeTab === "trash" ? "active" : ""}`}
-        onClick={() => setActiveTab("trash")}
-      >
-        Trash <span className="badge">{trashCount}</span>
+      <button className={`tab ${activeTab === "trash" ? "tasks" : ""}`}
+        onClick={() => setActiveTab("trash")}>
+        Trash <span className="badge">{trashItems.length}</span>
       </button>
-  
+
       <TodoInput />
   
-      <h3 className="section-title">YOUR TASKS</h3>
-  
-      <TodoList />
+      <h3 className="section-title">
+        {isTasks ? "YOUR TASKS" : "TRASH"}
+      </h3>
+
+      <TodoList
+        items={isTasks ? activeItems : trashItems}
+        emptyText={
+          isTasks
+            ? "Nothing here yet — add your first task!"
+            : "Trash is empty"
+        }
+      />
+
     </div>
   )
 }

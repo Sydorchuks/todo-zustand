@@ -1,33 +1,28 @@
-import { useTodoStore } from "../store/todoStore"
+import type { Todo } from "../types/todo"
 import TodoItem from "./todoItem"
 
-
-export const TodoList = () => {
-  const todos = useTodoStore((state) => state.todos)
-
-  const activeTab = useTodoStore((s) => s.activeTab)
-
-  const filteredTodos =
-    activeTab === "tasks"
-      ? todos.filter((t) => t.isActive)
-      : todos.filter((t) => !t.isActive)
-
-      return (
-        <div className="todo-list">
-          {filteredTodos.length === 0 ? (
-            <div className="empty">
-              <div className="empty-icon">✓</div>
-              <p>
-                {activeTab === "tasks"
-                  ? "Nothing here yet — add your first task!"
-                  : "Trash is empty"}
-              </p>
-            </div>
-          ) : (
-            filteredTodos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} />
-            ))
-          )}
-        </div>
-      )
+type Props = {
+  items: Todo[]
+  emptyText: string
 }
+
+const TodoList = ({ items, emptyText }: Props) => {
+  if (items.length === 0) {
+    return (
+      <div className="empty">
+        <div className="empty-icon">✓</div>
+        <p>{emptyText}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="todo-list">
+      {items.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
+    </div>
+  )
+}
+
+export default TodoList

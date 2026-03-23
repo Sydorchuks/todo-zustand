@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { useTodoStore } from "../store/todoStore"
+import { useTodoItem } from "../hooks/useTodoItem"
 import type { Todo } from "../types/todo"
 
 type Props = {
@@ -7,32 +6,21 @@ type Props = {
 }
 
 const TodoItem = ({ todo }: Props) => {
-  const toggleTodo = useTodoStore((state) => state.toggleTodo)
-  const editTodo = useTodoStore((state) => state.editTodo)
-  const deleteTodo = useTodoStore((state) => state.deleteTodo)
-  const activeTab = useTodoStore((s) => s.activeTab)
-  const restoreTodo = useTodoStore((s) => s.restoreTodo)
-  const removeTodo = useTodoStore((s) => s.removeTodo)
-
-  const [isEditing, setIsEditing] = useState(false)
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-  const [value, setValue] = useState(todo.text)
-
-  const handleSave = () => {
-    if (!value.trim()) return
-    editTodo(todo.id, value)
-    setIsEditing(false)
-  }
-
-  const handleCancel = () => {
-    setValue(todo.text)
-    setIsEditing(false)
-  }
-
-  const handleConfirmDelete = () => {
-    deleteTodo(todo.id)
-    setIsConfirmOpen(false)
-  }
+  const {
+    isEditing,
+    value,
+    isConfirmOpen,
+    setValue,
+    setIsEditing,
+    setIsConfirmOpen,
+    handleSave,
+    handleCancel,
+    handleDelete,
+    handleConfirmDelete,
+    toggleTodo,
+    restoreTodo,
+    removeTodo
+  } = useTodoItem(todo);
 
   return (
     <div className="todo">
@@ -41,16 +29,9 @@ const TodoItem = ({ todo }: Props) => {
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSave()
-              if (e.key === "Escape") handleCancel()
-            }}
           />
         ) : (
-          <span className={`todo-text ${todo.completed ? "completed" : ""}`}>
-            {todo.text}
-          </span>
+          <span className={`todo-text ${todo.completed ? "completed" : ""}`}>{todo.text}</span>
         )}
       </div>
 
@@ -60,26 +41,16 @@ const TodoItem = ({ todo }: Props) => {
             <button onClick={handleSave}>💾</button>
             <button onClick={handleCancel}>❌</button>
           </>
-        ) : activeTab === "tasks" ? (
+        ) : todo.isActive ? (
           <>
             <button onClick={() => toggleTodo(todo.id)}>✔</button>
             <button onClick={() => setIsEditing(true)}>✏</button>
-            <button
-              className="deleteButton"
-              onClick={() => setIsConfirmOpen(true)}
-            >
-              🗑
-            </button>
+            <button onClick={handleDelete} className="deleteButton">🗑</button>
           </>
         ) : (
           <>
             <button onClick={() => restoreTodo(todo.id)}>↩</button>
-            <button
-              className="deleteButton"
-              onClick={() => removeTodo(todo.id)}
-            >
-              ❌
-            </button>
+            <button onClick={() => removeTodo(todo.id)}>❌</button>
           </>
         )}
 
