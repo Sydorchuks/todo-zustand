@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
@@ -9,24 +14,126 @@ body {
   color: #111;
 }
 
-.app {
-  max-width: 720px;
-  margin: 60px auto;
-  padding: 0 20px;
+button {
+  font-family: inherit;
 }
 
-.header {
+.layout {
+  display: flex;
+  height: 100vh;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 260px;
+  background: #fff;
+  border-right: 1px solid black;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.content > * {
+  width: 100%;
+  max-width: 720px;
+  padding: 40px;
+}
+
+.header{
   margin-bottom: 20px;
 }
 
-.header h1 {
+.sidebar-header{
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.header h1, .sidebar-header h1 {
   font-size: 42px;
   font-weight: 800;
   margin: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .dot {
-  color: #ff4d4f;
+  color: hsl(359, 100%, 65%);
+}
+
+.group-title {
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-btn {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+
+  background: #111;
+  color: white;
+  cursor: pointer;
+
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.sidebar-btn:hover {
+  background: #333;
+}
+
+.sidebar-title {
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  padding: 10px;
+  border-radius: 10px;
+
+  text-decoration: none;
+  color: #111;
+
+  transition: 0.2s;
+}
+
+.sidebar-item:hover {
+  background: #f3f3f3;
+}
+
+.sidebar-item.active {
+  background: #e5e7eb;
+  font-weight: 600;
+}
+
+.sidebar-empty {
+  font-size: 13px;
+  color: #aaa;
 }
 
 .tabs {
@@ -41,17 +148,28 @@ body {
   border: none;
   background: #f3f4f6;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  transition: 0.2s;
+}
+
+.tab:hover {
+  background: #e5e7eb;
 }
 
 .tab.active {
   background: #909cb5;
+  color: white;
 }
 
 .badge {
-  margin-left: 6px;
   background: #e5e7eb;
   padding: 2px 6px;
   border-radius: 8px;
+  font-size: 12px;
 }
 
 .input-row {
@@ -169,6 +287,11 @@ body {
   background: #eee;
 }
 
+.todo-actions .deleteButton {
+  background-color: hsl(0, 88%, 42%);
+  color: #eee;
+}
+
 .empty {
   text-align: center;
   margin-top: 60px;
@@ -178,31 +301,6 @@ body {
 .empty-icon {
   font-size: 40px;
   margin-bottom: 10px;
-}
-
-.todo-actions .deleteButton{
-  background-color: hsl(0, 88%, 42%);
-  color: #eee;
-}
-
-@media (max-width: 500px) {
-  .app {
-    margin: 30px auto;
-  }
-
-  .input-row {
-    flex-direction: column;
-  }
-
-  .todo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .todo-actions {
-    align-self: flex-end;
-  }
 }
 
 .modal-overlay {
@@ -240,4 +338,36 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .content > * {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .input-row {
+    flex-direction: column;
+  }
+
+  .todo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .todo-actions {
+    align-self: flex-end;
+  }
+
+  .logo {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
 }

@@ -4,4 +4,5 @@ export type Todo = {
     completed: boolean
     createdAt: number
     isActive: boolean // is it deleted or not
+    groupId: string
   }

@@ -1,9 +1,13 @@
 import { useState } from "react"
 import { useAddTodo } from "../hooks/addTodo"
 
-const TodoInput = () => {
+type Props = {
+  groupId?: string
+}
+
+const TodoInput = ({ groupId }: Props) => {
   const [value, setValue] = useState("")
-  const handleAdd = useAddTodo()
+  const handleAdd = useAddTodo(groupId)
 
   return (
     <form
