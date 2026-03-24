@@ -34,7 +34,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .content {
@@ -110,6 +110,9 @@ button {
   flex-direction: column;
   gap: 6px;
   overflow-y: auto;
+
+  flex: 1;
+  min-height: 0;
 }
 
 .sidebar-item {
@@ -338,6 +341,57 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.sidebar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  min-height: fit-content;
+
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 10;
+}
+
+.dropdown button {
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown button:hover {
+  background: #f3f3f3;
+}
+
+.sidebar-input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
 }
 
 @media (max-width: 768px) {

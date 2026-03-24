@@ -15,6 +15,8 @@ type TodoStore = {
   setActiveTab: (tab: "tasks" | "trash") => void
 
   addGroup: () => string
+  updateGroup: (id: string, title: string) => void
+  deleteGroup: (id: string) => void
   addTodo: (text: string, groupId: string) => void
 
   toggleTodo: (id: string) => void
@@ -49,6 +51,19 @@ export const useTodoStore = create<TodoStore>()(
 
         return id
       },
+
+      updateGroup: (id, title) =>
+        set((state) => ({
+          groups: state.groups.map((group) =>
+            group.id === id ? { ...group, title } : group
+          )
+        })),
+      
+      deleteGroup: (id) =>
+        set((state) => ({
+          groups: state.groups.filter((group) => group.id !== id),
+          todos: state.todos.filter((todo) => todo.groupId !== id)
+        })),
 
       addTodo: (text, groupId) => {
         set((state) => ({
