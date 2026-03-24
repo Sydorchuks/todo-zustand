@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom"
 import { useGroupItem } from "../hooks/useGroupItem"
+import type { Group } from "../types/group"
 
-const SidebarItem = ({ group }) => {
+type Props = {
+  group: Group
+}
+
+const SidebarItem = ({ group }: Props) => {
   const {
     isEditing,
     value,

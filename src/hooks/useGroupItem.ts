@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useTodoStore } from "../store/todoStore"
+import type { Group } from "../types/group"
 
-export const useGroupItem = (group) => {
+export const useGroupItem = (group: Group) => {
   const updateGroup = useTodoStore((s) => s.updateGroup)
   const deleteGroup = useTodoStore((s) => s.deleteGroup)
 
@@ -26,7 +27,7 @@ export const useGroupItem = (group) => {
     deleteGroup(group.id)
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSave();
     }
@@ -35,8 +36,8 @@ export const useGroupItem = (group) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!ref.current?.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) {
         setIsMenuOpen(false)
       }
     }
