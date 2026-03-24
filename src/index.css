@@ -394,6 +394,46 @@ button {
   border: 1px solid #ddd;
 }
 
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.home-title {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.home-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+
+  background: #111;
+  color: white;
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.home-btn:hover {
+  background: #333;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     display: none;

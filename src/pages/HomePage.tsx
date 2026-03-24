@@ -1,32 +1,28 @@
-import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTodoStore } from "../store/todoStore"
 
 export default function HomePage() {
-  const [text, setText] = useState("")
-
   const addGroup = useTodoStore((s) => s.addGroup)
-  const addTodo = useTodoStore((s) => s.addTodo)
-
   const navigate = useNavigate()
 
-  const handleAdd = () => {
-    if (!text.trim()) return
-
-    const groupId = addGroup()
-    addTodo(text, groupId)
-
-    navigate(`/groups/${groupId}`)
+  const handleCreate = () => {
+    const id = addGroup()
+    navigate(`/groups/${id}`)
   }
 
   return (
-    <div>
-      <input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Add a new task..."
-      />
-      <button onClick={handleAdd}>Add</button>
+    <div className="home">
+      <h1 className="home-title">
+        Create your first group
+      </h1>
+
+      <p className="home-subtitle">
+        Start organizing your tasks right now
+      </p>
+
+      <button className="home-btn" onClick={handleCreate}>
+        Create Group
+      </button>
     </div>
   )
 }
