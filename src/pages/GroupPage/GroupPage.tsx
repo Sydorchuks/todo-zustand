@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom"
-import { useTodoStore } from "../store/todoStore"
-import TodoInput from "../components/todoInput"
-import TodoList from "../components/todoList"
+import { Link, useParams } from "react-router-dom"
+import { useTodoStore } from "../../store/todoStore"
+import TodoList from "../../components/TodoList/todoList"
+import TodoInput from "../../components/TodoInput/todoInput"
+import "./GroupPage.css"
 
 export default function GroupPage() {
   const { groupId } = useParams()
@@ -13,7 +14,21 @@ export default function GroupPage() {
 
   const group = groups.find((g) => g.id === groupId)
 
-  if (!group) return <div>Group not found</div>
+  if (!group) {
+      return (
+        <div className="not-found">
+          <h2>Group not found</h2>
+
+          <p className="not-found-text">
+            The group you are looking for doesn’t exist or was deleted.
+          </p>
+
+          <Link to="/" className="not-found-link">
+            ← Back to home
+          </Link>
+        </div>
+    )
+  }
 
   const filteredTodos = todos.filter((t) => t.groupId === groupId)
 
@@ -26,9 +41,9 @@ export default function GroupPage() {
     <div className="page">
 
       <div className="header">
-        <h1>
+        <h2>
           do<span className="dot">.</span>it
-        </h1>
+        </h2>
       </div>
 
       <span className="group-title">{group.title}</span>

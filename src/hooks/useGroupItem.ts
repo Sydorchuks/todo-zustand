@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useTodoStore } from "../store/todoStore"
 import type { Group } from "../types/group"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useClickOutside } from "./useClickOutside"
 
 export const useGroupItem = (group: Group) => {
   const updateGroup = useTodoStore((s) => s.updateGroup)
   const deleteGroup = useTodoStore((s) => s.deleteGroup)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(group.title)
@@ -24,7 +28,13 @@ export const useGroupItem = (group: Group) => {
   }
 
   const handleConfirmDelete = () => {
+    const isActivePage = location.pathname === `/groups/${group.id}`
+
     deleteGroup(group.id)
+
+    if (isActivePage) {
+      navigate("/")
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -35,19 +45,10 @@ export const useGroupItem = (group: Group) => {
 
   const ref = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) {
-        setIsMenuOpen(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+  useClickOutside({
+    ref,
+    handler: () => setIsMenuOpen(false)
+  })
 
   return {
     isEditing,

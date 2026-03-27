@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
-import { useGroupItem } from "../hooks/useGroupItem"
-import type { Group } from "../types/group"
+import type { Group } from "../../types/group"
+import { useGroupItem } from "../../hooks/useGroupItem"
+import "./SidebarItem.css"
 
 type Props = {
   group: Group
@@ -53,18 +54,24 @@ const SidebarItem = ({ group }: Props) => {
       </button>
 
       {isMenuOpen && (
-        <div className="dropdown">
-          <button onClick={() => {
-            setIsEditing(true)
-            setIsMenuOpen(false)
-          }}>
-            Rename
-          </button>
+        <ul className="dropdown">
+          <li>
+            <button
+              onClick={() => {
+                setIsEditing(true)
+                setIsMenuOpen(false)
+              }}
+            >
+              Rename
+            </button>
+          </li>
 
-          <button onClick={handleDelete}>
-            Delete
-          </button>
-        </div>
+          <li>
+            <button onClick={handleDelete}>
+              Delete
+            </button>
+          </li>
+        </ul>
       )}
 
       {isConfirmOpen && (

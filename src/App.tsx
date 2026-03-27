@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom"
-import HomePage from "./pages/HomePage"
-import GroupPage from "./pages/GroupPage"
-import Sidebar from "./components/Sidebar"
+import GroupPage from "./pages/GroupPage/GroupPage"
+import Sidebar from "./components/Sidebar/Sidebar"
+import HomePage from "./pages/HomePage/HomePage"
+
 
 function App() {
   return (

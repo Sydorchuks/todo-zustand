@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useAddTodo } from "../hooks/addTodo"
+import { useAddTodo } from "../../hooks/addTodo"
+import "./TodoInput.css"
 
 type Props = {
   groupId?: string
