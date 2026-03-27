@@ -1,5 +1,6 @@
-import { useTodoItem } from "../hooks/useTodoItem"
-import type { Todo } from "../types/todo"
+import { useTodoItem } from "../../hooks/useTodoItem";
+import type { Todo } from "../../types/todo";
+import "./TodoItem.css"
 
 type Props = {
   todo: Todo
