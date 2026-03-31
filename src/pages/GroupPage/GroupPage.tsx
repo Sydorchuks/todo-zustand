@@ -4,6 +4,7 @@ import TodoList from "../../components/TodoList/todoList"
 import TodoInput from "../../components/TodoInput/todoInput"
 import "./GroupPage.css"
 import { useState } from "react"
+import Tabs from "../../components/Tabs/Tabs"
 
 export default function GroupPage() {
   const { groupId } = useParams()
@@ -53,6 +54,12 @@ export default function GroupPage() {
     return []
   })()
 
+  const tabs = [
+    { key: "tasks", label: "Tasks", count: activeItems.length },
+    { key: "done", label: "Done", count: doneItems.length },
+    { key: "trash", label: "Trash", count: trashItems.length },
+  ] as const
+
   return (
     <div className="page">
 
@@ -63,41 +70,23 @@ export default function GroupPage() {
       </div>
 
       <span className="group-title">{group.title}</span>
-
-      <div className="tabs">
-        <button
-          className={`tab ${activeTab === "tasks" ? "active" : ""}`}
-          onClick={() => setActiveTab("tasks")}
-        >
-          Tasks <span className="badge">{activeItems.length}</span>
-        </button>
-
-        <button
-          className={`tab ${activeTab === "done" ? "active" : ""}`}
-          onClick={() => setActiveTab("done")}
-        >
-          Done <span className="badge">{doneItems.length}</span>
-        </button>
-
-        <button
-          className={`tab ${activeTab === "trash" ? "active" : ""}`}
-          onClick={() => setActiveTab("trash")}
-        >
-          Trash <span className="badge">{trashItems.length}</span>
-        </button>
+      <div className="tabs-row">
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onChange={setActiveTab}
+        />
 
         <div className="toggle-wrapper">
-            <span>Hide done</span>
-
-            <button
-              className={`toggle ${hideDone ? "active" : ""}`}
-              onClick={() => setHideDone((prev) => !prev)}
-            >
-              <div className="toggle-ball" />
-            </button>
+          <span>Hide done</span>
+          <button
+            className={`toggle ${hideDone ? "active" : ""}`}
+            onClick={() => setHideDone((prev) => !prev)}
+          >
+            <div className="toggle-ball" />
+          </button>
         </div>
       </div>
-
       <TodoInput groupId={groupId!} />
 
       <h3 className="section-title">

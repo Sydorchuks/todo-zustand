@@ -22,34 +22,6 @@
   margin-bottom: 10px;
 }
 
-.tabs {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.tab {
-  padding: 8px 16px;
-  border-radius: 12px;
-  border: none;
-  background: #f3f4f6;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  transition: 0.2s;
-}
-
-.tab:hover {
-  background: var(--color-hover);
-}
-
-.tab.active {
-  background: #909cb5;
-  color: white;
-}
 
 .badge {
   background: var(--color-active);
@@ -86,6 +58,20 @@
 
 .not-found-link:hover {
   background: var(--color-hover);
+}
+
+.tabs-row {
+  display: flex;
+  align-items: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tabs-row .toggle-wrapper {
+  margin-left: auto;
 }
 
 .toggle-wrapper {
