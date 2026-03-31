@@ -88,6 +88,45 @@
   background: var(--color-hover);
 }
 
+.toggle-wrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.toggle {
+  width: 42px;
+  height: 22px;
+  background: #d1d5db;
+  border-radius: 999px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.toggle.active {
+  background: #4f46e5;
+}
+
+.toggle-ball {
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.toggle.active .toggle-ball {
+  transform: translateX(20px);
+}
+
+
 @media (max-width: 768px) {
   .header h2 {
     font-size: 32px;

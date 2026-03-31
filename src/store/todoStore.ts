@@ -11,8 +11,8 @@ type TodoStore = {
   todos: Todo[]
   groups: Group[]
 
-  activeTab: "tasks" | "trash"
-  setActiveTab: (tab: "tasks" | "trash") => void
+  activeTab: "tasks" | "trash" | "done"
+  setActiveTab: (tab: "tasks" | "trash" | "done") => void
 
   addGroup: () => string
   updateGroup: (id: string, title: string) => void
