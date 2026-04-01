@@ -12,6 +12,8 @@
 
   --color-danger: hsl(0, 88%, 42%);
   --color-accent: hsl(359, 100%, 65%);
+
+  --color-choices: #4f46e5;
 }
 
 * {

@@ -3,6 +3,8 @@ import { useTodoStore } from "../../store/todoStore"
 import TodoList from "../../components/TodoList/todoList"
 import TodoInput from "../../components/TodoInput/todoInput"
 import "./GroupPage.css"
+import { useState } from "react"
+import Tabs from "../../components/Tabs/Tabs"
 
 export default function GroupPage() {
   const { groupId } = useParams()
@@ -11,6 +13,7 @@ export default function GroupPage() {
   const groups = useTodoStore((s) => s.groups)
   const activeTab = useTodoStore((s) => s.activeTab)
   const setActiveTab = useTodoStore((s) => s.setActiveTab)
+  const [hideDone, setHideDone] = useState(false)
 
   const group = groups.find((g) => g.id === groupId)
 
@@ -32,10 +35,44 @@ export default function GroupPage() {
 
   const filteredTodos = todos.filter((t) => t.groupId === groupId)
 
-  const activeItems = filteredTodos.filter((t) => t.isActive)
-  const trashItems = filteredTodos.filter((t) => !t.isActive)
+  const activeItems = filteredTodos.filter((t) => {
+      if (!t.isActive) return false
 
-  const isTasks = activeTab === "tasks"
+      if (hideDone) {
+        return !t.completed
+      }
+
+      return true
+  })
+  const trashItems = filteredTodos.filter((t) => !t.isActive)
+  const doneItems = filteredTodos.filter((t) => t.isActive && t.completed)
+
+  const tabConfig = {
+      tasks: {
+        getItems: () => activeItems,
+        title: "TASKS",
+        emptyText: "Nothing here yet — add your first task!",
+      },
+      done: {
+        getItems: () => doneItems,
+        title: "COMPLETED TASKS",
+        emptyText: "No completed tasks yet",
+      },
+      trash: {
+        getItems: () => trashItems,
+        title: "TRASH",
+        emptyText: "Trash is empty",
+      },
+  } as const
+
+  const currentTab = tabConfig[activeTab];
+  const visibleItems = currentTab.getItems();
+
+  const tabs = [
+    { key: "tasks", label: "Tasks", count: activeItems.length },
+    { key: "done", label: "Done", count: doneItems.length },
+    { key: "trash", label: "Trash", count: trashItems.length },
+  ] as const
 
   return (
     <div className="page">
@@ -47,36 +84,32 @@ export default function GroupPage() {
       </div>
 
       <span className="group-title">{group.title}</span>
+      <div className="tabs-row">
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onChange={setActiveTab}
+        />
 
-      <div className="tabs">
-        <button
-          className={`tab ${isTasks ? "active" : ""}`}
-          onClick={() => setActiveTab("tasks")}
-        >
-          Tasks <span className="badge">{activeItems.length}</span>
-        </button>
-
-        <button
-          className={`tab ${!isTasks ? "active" : ""}`}
-          onClick={() => setActiveTab("trash")}
-        >
-          Trash <span className="badge">{trashItems.length}</span>
-        </button>
+        <div className="toggle-wrapper">
+          <span>Hide done</span>
+          <button
+            className={`toggle ${hideDone ? "active" : ""}`}
+            onClick={() => setHideDone((prev) => !prev)}
+          >
+            <div className="toggle-ball" />
+          </button>
+        </div>
       </div>
-
       <TodoInput groupId={groupId!} />
 
       <h3 className="section-title">
-        {isTasks ? "YOUR TASKS" : "TRASH"}
+        {currentTab.title}
       </h3>
 
       <TodoList
-        items={isTasks ? activeItems : trashItems}
-        emptyText={
-          isTasks
-            ? "Nothing here yet — add your first task!"
-            : "Trash is empty"
-        }
+        items={visibleItems}
+        emptyText={currentTab.emptyText}
       />
     </div>
   )

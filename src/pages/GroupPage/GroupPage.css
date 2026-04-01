@@ -22,34 +22,6 @@
   margin-bottom: 10px;
 }
 
-.tabs {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.tab {
-  padding: 8px 16px;
-  border-radius: 12px;
-  border: none;
-  background: #f3f4f6;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  transition: 0.2s;
-}
-
-.tab:hover {
-  background: var(--color-hover);
-}
-
-.tab.active {
-  background: #909cb5;
-  color: white;
-}
 
 .badge {
   background: var(--color-active);
@@ -87,6 +59,54 @@
 .not-found-link:hover {
   background: var(--color-hover);
 }
+
+.tabs-row {
+  display: flex;
+  align-items: center;
+}
+
+.tabs-row .toggle-wrapper {
+  margin-left: auto;
+}
+
+.toggle-wrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.toggle {
+  width: 42px;
+  height: 22px;
+  background: #d1d5db;
+  border-radius: 999px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.toggle.active {
+  background: var(--color-choices);
+}
+
+.toggle-ball {
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.toggle.active .toggle-ball {
+  transform: translateX(20px);
+}
+
 
 @media (max-width: 768px) {
   .header h2 {

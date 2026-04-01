@@ -1,5 +1,6 @@
 import { useTodoItem } from "../../hooks/useTodoItem";
 import type { Todo } from "../../types/todo";
+import Modal from "../Modal/Modal";
 import "./TodoItem.css"
 
 type Props = {
@@ -54,27 +55,25 @@ const TodoItem = ({ todo }: Props) => {
             <button onClick={() => removeTodo(todo.id)}>❌</button>
           </>
         )}
+        <Modal
+          isOpen={isConfirmOpen}
+          onClose={() => setIsConfirmOpen(false)}
+        >
+          <p>Delete this group?</p>
 
-        {isConfirmOpen && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <p>Are you sure you want to delete this task?</p>
+          <div className="modal-actions">
+            <button onClick={() => setIsConfirmOpen(false)}>
+              Cancel
+            </button>
 
-              <div className="modal-actions">
-                <button onClick={() => setIsConfirmOpen(false)}>
-                  Cancel
-                </button>
-
-                <button
-                  className="deleteButton"
-                  onClick={handleConfirmDelete}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+            <button
+              className="deleteButton"
+              onClick={handleConfirmDelete}
+            >
+              Delete
+            </button>
           </div>
-        )}
+        </Modal>
       </div>
     </div>
   )

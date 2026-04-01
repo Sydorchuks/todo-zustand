@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom"
 import type { Group } from "../../types/group"
 import { useGroupItem } from "../../hooks/useGroupItem"
 import "./SidebarItem.css"
+import Modal from "../Modal/Modal"
+
 
 type Props = {
   group: Group
@@ -74,26 +76,25 @@ const SidebarItem = ({ group }: Props) => {
         </ul>
       )}
 
-      {isConfirmOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <p>Delete this group?</p>
+      <Modal
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+      >
+        <p>Delete this group?</p>
 
-            <div className="modal-actions">
-              <button onClick={() => setIsConfirmOpen(false)}>
-                Cancel
-              </button>
+        <div className="modal-actions">
+          <button onClick={() => setIsConfirmOpen(false)}>
+            Cancel
+          </button>
 
-              <button
-                className="deleteButton"
-                onClick={handleConfirmDelete}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+          <button
+            className="deleteButton"
+            onClick={handleConfirmDelete}
+          >
+            Delete
+          </button>
         </div>
-      )}
+      </Modal>
 
     </div>
   )
