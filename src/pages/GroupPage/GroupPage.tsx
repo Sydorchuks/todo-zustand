@@ -47,12 +47,26 @@ export default function GroupPage() {
   const trashItems = filteredTodos.filter((t) => !t.isActive)
   const doneItems = filteredTodos.filter((t) => t.isActive && t.completed)
 
-  const visibleItems = (() => {
-    if (activeTab === "tasks") return activeItems
-    if (activeTab === "done") return doneItems
-    if (activeTab === "trash") return trashItems
-    return []
-  })()
+  const tabConfig = {
+      tasks: {
+        getItems: () => activeItems,
+        title: "TASKS",
+        emptyText: "Nothing here yet — add your first task!",
+      },
+      done: {
+        getItems: () => doneItems,
+        title: "COMPLETED TASKS",
+        emptyText: "No completed tasks yet",
+      },
+      trash: {
+        getItems: () => trashItems,
+        title: "TRASH",
+        emptyText: "Trash is empty",
+      },
+  } as const
+
+  const currentTab = tabConfig[activeTab];
+  const visibleItems = currentTab.getItems();
 
   const tabs = [
     { key: "tasks", label: "Tasks", count: activeItems.length },
@@ -90,20 +104,12 @@ export default function GroupPage() {
       <TodoInput groupId={groupId!} />
 
       <h3 className="section-title">
-        {activeTab === "tasks" && "TASKS"}
-        {activeTab === "done" && "COMPLETED TASKS"}
-        {activeTab === "trash" && "TRASH"}
+        {currentTab.title}
       </h3>
 
       <TodoList
         items={visibleItems}
-        emptyText={
-          activeTab === "tasks"
-            ? "Nothing here yet — add your first task!"
-            : activeTab === "done"
-            ? "No completed tasks yet"
-            : "Trash is empty"
-        }
+        emptyText={currentTab.emptyText}
       />
     </div>
   )
