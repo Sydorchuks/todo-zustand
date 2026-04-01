@@ -26,49 +26,8 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
   }, [isOpen, onClose])
 
   useEffect(() => {
-    if (!isOpen || !modalRef.current) return
-
-    const focusableSelectors = [
-      "button",
-      "a[href]",
-      "input",
-      "textarea",
-      "select",
-      "[tabindex]:not([tabindex='-1'])",
-    ]
-
-    const focusableElements =
-      modalRef.current.querySelectorAll<HTMLElement>(
-        focusableSelectors.join(",")
-      )
-
-    if (focusableElements.length === 0) return
-
-    const firstEl = focusableElements[0]
-    const lastEl = focusableElements[focusableElements.length - 1]
-
-    firstEl.focus()
-
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstEl) {
-          e.preventDefault()
-          lastEl.focus()
-        }
-      } else {
-        if (document.activeElement === lastEl) {
-          e.preventDefault()
-          firstEl.focus()
-        }
-      }
-    }
-
-    document.addEventListener("keydown", handleTab)
-
-    return () => {
-      document.removeEventListener("keydown", handleTab)
+    if (isOpen) {
+      modalRef.current?.focus()
     }
   }, [isOpen])
 
@@ -79,6 +38,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       <div
         ref={modalRef}
         className="modal"
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
